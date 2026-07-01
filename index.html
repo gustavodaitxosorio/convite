@@ -233,6 +233,13 @@
                 <div class="erro" id="erroData"></div>
             </div>
 
+            <!-- Horário -->
+            <div class="campo">
+                <label class="titulo" for="hora">🕐 Horário preferido (formato 24h)</label>
+                <input type="text" id="hora" inputmode="numeric" maxlength="5" placeholder="HH:MM" oninput="formatarHora(this)">
+                <div class="erro" id="erroHora"></div>
+            </div>
+
             <!-- Preferência -->
             <div class="campo">
                 <label class="titulo" for="restaurante">🍽️ O que você prefere?</label>
@@ -308,16 +315,35 @@
             return dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12;
         }
 
+        // Coloca o ":" automaticamente e só aceita números
+        function formatarHora(campo) {
+            let v = campo.value.replace(/\D/g, '');       // só dígitos
+            if (v.length > 2) v = v.slice(0, 2) + ':' + v.slice(2, 4);
+            campo.value = v;
+        }
+
+        // Confere se a hora é válida no formato 24h (HH:MM)
+        function horaValida(str) {
+            const m = str.match(/^(\d{2}):(\d{2})$/);
+            if (!m) return false;
+            const hora = parseInt(m[1], 10);
+            const min = parseInt(m[2], 10);
+            return hora >= 0 && hora <= 23 && min >= 0 && min <= 59;
+        }
+
         function confirmar() {
             const data = document.getElementById('data').value.trim();
+            const hora = document.getElementById('hora').value.trim();
             const restaurante = document.getElementById('restaurante').value;
             const local = localEscolhido;
 
             const erroLocal = document.getElementById('erroLocal');
             const erroData = document.getElementById('erroData');
+            const erroHora = document.getElementById('erroHora');
             const erroRest = document.getElementById('erroRest');
             erroLocal.textContent = '';
             erroData.textContent = '';
+            erroHora.textContent = '';
             erroRest.textContent = '';
 
             let ok = true;
@@ -327,6 +353,10 @@
             }
             if (!dataValida(data)) {
                 erroData.textContent = 'Coloca a data no formato DD/MM 😉';
+                ok = false;
+            }
+            if (!horaValida(hora)) {
+                erroHora.textContent = 'Coloca o horário no formato 24h (ex: 20:30) 😉';
                 ok = false;
             }
             if (!restaurante) {
@@ -340,8 +370,9 @@
                 'Oiii! Aceito o convite! 🥰\n\n' +
                 '📍 Local: ' + local + '\n' +
                 '📅 Melhor data pra mim: ' + data + '\n' +
+                '🕐 Horário: ' + hora + '\n' +
                 '🍽️ Prefiro: ' + restaurante + '\n\n' +
-                'Quando a gente marca? 💕';
+                'Então já tá tudo marcado! 🥳 Mal posso esperar 🥰💕';
 
             document.getElementById('mensagem').value = texto;
             document.getElementById('formulario').style.display = 'none';
