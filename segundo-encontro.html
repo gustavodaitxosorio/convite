@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bora pro segundo encontro? 💗</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    /* twilight rosé — between playful pink and cinematic night */
+    background:
+      radial-gradient(circle at 50% 22%, rgba(255,168,205,0.55) 0%, rgba(255,168,205,0) 46%),
+      radial-gradient(circle at 80% 90%, rgba(255,120,170,0.30) 0%, rgba(255,120,170,0) 40%),
+      linear-gradient(160deg, #8a2f5c 0%, #5c1f45 55%, #3d1531 100%);
+    color: #ffe9f2;
+  }
+
+  /* ambient floating hearts + sparkles */
+  .amb { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .fh { position: absolute; bottom: -40px; opacity: 0; animation: floatUp linear infinite; }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(.6) rotate(0deg); opacity: 0; }
+    12% { opacity: .45; }
+    100% { transform: translateY(-105vh) scale(1.1) rotate(20deg); opacity: 0; }
+  }
+  .spk { position: absolute; color:#fff; opacity:.4; font-size: 10px; animation: twk 3.4s ease-in-out infinite; }
+  @keyframes twk { 0%,100%{opacity:.12;} 50%{opacity:.75;} }
+
+  /* Shrek dando um passeio pela tela */
+  .shrek-lane {
+    position: fixed; bottom: 6px; left: 0; z-index: 6; pointer-events: none;
+    animation: stroll 17s linear infinite;
+  }
+  @keyframes stroll {
+    0%   { transform: translateX(-140px); }
+    100% { transform: translateX(100vw); }
+  }
+  .shrek {
+    display: block; height: 150px; width: auto;
+    transform-origin: bottom center;
+    filter: drop-shadow(0 8px 8px rgba(0,0,0,.4));
+    animation: shrekbob .5s ease-in-out infinite;
+  }
+  @keyframes shrekbob {
+    0%,100% { transform: translateY(0) rotate(-3deg); }
+    50%     { transform: translateY(-7px) rotate(3deg); }
+  }
+
+  /* card */
+  .wrap { position: relative; z-index: 3; width: 90%; max-width: 420px; text-align: center; padding: 20px; }
+  .card {
+    background: rgba(72,32,58,0.45);
+    border: 1px solid rgba(255,160,200,0.35);
+    border-radius: 26px; padding: 34px 26px;
+    box-shadow: 0 0 50px rgba(255,90,150,0.28), inset 0 0 0 1px rgba(255,255,255,0.04);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* screen: question */
+  .typed { min-height: 96px; font-size: 18px; line-height: 1.55; font-style: italic; color:#ffdcec; margin:0 0 6px; }
+  .cursor { display:inline-block; width:2px; height:1.05em; background:#ff9ac2; margin-left:2px; vertical-align:-3px; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50%{opacity:0;} }
+  .headline { font-size: 25px; font-weight: 800; margin: 10px 0 24px; color:#fff; letter-spacing:.2px; }
+  .btns { display:flex; gap:16px; justify-content:center; align-items:center; position:relative; min-height:56px; }
+  button { font-family: inherit; font-weight: 700; border:none; cursor:pointer; border-radius:15px; transition: transform .18s, box-shadow .2s; }
+  .sim {
+    background: linear-gradient(135deg,#ff5a9e,#ff2e63); color:#fff; font-size:19px; padding:15px 30px;
+    box-shadow: 0 0 22px rgba(255,60,120,.6); animation: glow 2.2s ease-in-out infinite;
+  }
+  @keyframes glow { 0%,100%{box-shadow:0 0 18px rgba(255,60,120,.5);} 50%{box-shadow:0 0 34px rgba(255,60,120,.9);} }
+  .sim:hover { transform: scale(1.07); }
+  .nao { background:#f6dbe8; color:#7a2350; border:1px solid rgba(255,255,255,.55); font-size:15px; padding:12px 22px; box-shadow:0 4px 12px rgba(0,0,0,.25); }
+  .nao:hover { background:#fceaf2; }
+  .hint { font-size: 11.5px; color:#e6b9cf; opacity:.8; margin: 18px 0 0; }
+
+  /* screen: reveal */
+  #reveal { display:none; }
+  .cheer { font-size: 44px; margin: 0 0 6px; animation: pop .5s cubic-bezier(.2,1.4,.5,1) both; }
+  @keyframes pop { from{ transform: scale(.3); opacity:0;} to{ transform: scale(1); opacity:1;} }
+  .reveal-h { font-size: 26px; font-weight:800; color:#fff; margin: 6px 0 12px; }
+  .reveal-p { font-size: 15.5px; line-height:1.55; color:#ffe0ee; margin: 0 0 24px; }
+  .next {
+    background: linear-gradient(135deg,#ff6b9d,#ff4d6d); color:#fff; font-size:17px; padding:14px 26px;
+    box-shadow: 0 8px 20px rgba(255,77,109,.45);
+  }
+  .next:hover { transform: scale(1.04); }
+
+  /* form screen */
+  #form { display:none; text-align:center; }
+  .form-sub { color:#ffd9ea; font-size:15px; margin:0 0 16px; }
+  .locais { display:flex; flex-direction:column; gap:10px; margin-bottom:4px; }
+  .loc {
+    background: rgba(255,255,255,.10); color:#fff; border:1px solid rgba(255,160,200,.35);
+    padding:13px 15px; font-size:15.5px; border-radius:14px; text-align:left; cursor:pointer;
+    transition: transform .15s, background .15s;
+  }
+  .loc:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+  .loc.selected { background: linear-gradient(135deg,#ff5a9e,#ff2e63); border-color:transparent; box-shadow:0 6px 16px rgba(255,60,120,.4); }
+  .loc.done { opacity:.4; text-decoration:line-through; cursor:not-allowed; pointer-events:none; }
+  .bubble-float {
+    position:fixed; z-index:20; max-width:210px; line-height:1.3;
+    background:#fff; color:#7a2350; font-size:14.5px; font-weight:700;
+    padding:10px 14px; border-radius:14px;
+    box-shadow:0 10px 24px rgba(0,0,0,.32);
+    animation: pop .3s cubic-bezier(.2,1.4,.5,1) both;
+    pointer-events:none;
+  }
+  .bubble-float::after { content:''; position:absolute; border:8px solid transparent; }
+  .bubble-float.on-right::after  { left:-8px; top:50%; transform:translateY(-50%); border-right-color:#fff; border-left:0; }
+  .bubble-float.on-left::after   { right:-8px; top:50%; transform:translateY(-50%); border-left-color:#fff; border-right:0; }
+  .bubble-float.on-bottom::after { bottom:-8px; left:50%; transform:translateX(-50%); border-top-color:#fff; border-bottom:0; }
+  .loc-link {
+    display:inline-block; margin:2px 0 16px; color:#8fd0ff; font-size:14px; text-decoration:none;
+    border-bottom:1px solid rgba(143,208,255,.5);
+  }
+  .field { text-align:left; margin:0 0 14px; }
+  .field label { display:block; font-size:13px; color:#ffb3d1; margin:0 0 6px; font-weight:600; }
+  .field input, .field textarea {
+    width:100%; box-sizing:border-box; padding:12px; font-size:15px; font-family:inherit;
+    color:#fff; background: rgba(255,255,255,.08); border:1.5px solid rgba(255,160,200,.35); border-radius:12px;
+  }
+  .field textarea { resize:vertical; min-height:52px; }
+  .field input:focus, .field textarea:focus { outline:none; border-color:#ff5a9e; }
+  .field input::placeholder, .field textarea::placeholder { color:#c99bb4; }
+
+  /* success screen */
+  .form-erro { color:#ffd166; font-size:13px; font-weight:600; min-height:16px; margin:2px 0 10px; }
+  #sucesso { display:none; text-align:center; }
+  .msg-final {
+    width:100%; box-sizing:border-box; min-height:150px; padding:14px;
+    font-size:14.5px; font-family:inherit; line-height:1.5;
+    color:#fff; background:rgba(255,255,255,.08);
+    border:1.5px solid rgba(255,160,200,.35); border-radius:14px; resize:vertical;
+    margin:8px 0 16px;
+  }
+
+  /* falling confetti + hearts */
+  .fall { position: fixed; top:-24px; z-index:4; pointer-events:none; will-change: transform; }
+  @keyframes drop { to { transform: translateY(110vh) rotate(var(--r)); opacity: 1; } }
+
+  .replay { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index:6;
+    background: rgba(0,0,0,.25); color:#ffd9ea; border:1px solid rgba(255,255,255,.2);
+    font-size:12px; padding:7px 14px; border-radius:999px; cursor:pointer; }
+</style>
+</head>
+<body>
+
+  <div class="amb" id="amb"></div>
+
+  <!-- Shrek dando um passeio pela tela -->
+  <div class="shrek-lane">
+    <img class="shrek" src="shrek.png" alt="Shrek passeando">
+  </div>
+
+  <div class="wrap">
+    <!-- QUESTION -->
+    <div class="card" id="question">
+      <p class="typed"><span id="typed"></span><span class="cursor"></span></p>
+      <h2 class="headline">Bora pro segundo encontro?</h2>
+      <div class="btns">
+        <button class="sim" onclick="dizerSim()">Claro que sim 💕</button>
+        <button class="nao" onmouseover="foge(this,event)" onclick="foge(this,event)">não</button>
+      </div>
+    </div>
+
+    <!-- REVEAL -->
+    <div class="card" id="reveal">
+      <div class="cheer">🎉</div>
+      <h2 class="reveal-h">Eu sabia! 😄</h2>
+      <p class="reveal-p">Bora escolher onde, quando e o que a gente vai fazer dessa vez.</p>
+      <button class="next" onclick="irParaForm()">Escolher os detalhes →</button>
+    </div>
+
+    <!-- FORM -->
+    <div class="card" id="form">
+      <h2 class="reveal-h" style="margin-bottom:4px">Então bora! 😍</h2>
+      <p class="form-sub">Onde você quer ir?</p>
+      <div class="locais">
+        <button class="loc" data-nome="Confeitaria Perdita" data-maps="https://www.google.com/maps/search/?api=1&query=Confeitaria+Perdita" onclick="escolherLocal(this)">🧁 Confeitaria Perdita</button>
+        <button class="loc" data-nome="Fazenda da vovó" data-maps="https://www.google.com/maps/search/?api=1&query=Fazenda+da+vov%C3%B3" onclick="escolherLocal(this)">🌳 Fazenda da vovó</button>
+        <button class="loc" data-nome="Hangar Gastronomia" data-maps="https://www.google.com/maps/search/?api=1&query=Hangar+Gastronomia" onclick="escolherLocal(this)">🛩️ Hangar Gastronomia</button>
+        <button class="loc joke" data-fx="verde" data-msg="hehe, quem sabe no futuro 😏" onclick="explodirLocal(this)">⚽ Palestra Itália</button>
+        <button class="loc joke" data-fx="pretobranco" data-msg="Ahhh, vc considerou rsrs 😂" onclick="explodirLocal(this)">⚽ Estádio do Corinthians</button>
+        <button class="loc joke" data-msg="Uall !! vc não acreditou nisso né?? rsrs" onclick="explodirLocal(this)">🍟 Mcdonalds</button>
+      </div>
+      <a id="localLink" class="loc-link" href="#" target="_blank" rel="noopener" style="display:none">📍 ver localização</a>
+
+      <div class="field">
+        <label>📅 Melhor data (DD/MM)</label>
+        <input id="data" inputmode="numeric" maxlength="5" placeholder="DD/MM" oninput="fmtData(this)">
+      </div>
+      <div class="field">
+        <label>🕐 Horário (24h)</label>
+        <input id="hora" inputmode="numeric" maxlength="5" placeholder="HH:MM" oninput="fmtHora(this)">
+      </div>
+      <div class="field">
+        <label>💡 Eu tenho uma ideia melhor jovem Joseense:</label>
+        <textarea id="ideia" rows="2" placeholder="manda sua ideia aqui 😏"></textarea>
+      </div>
+
+      <div id="formErro" class="form-erro"></div>
+      <button class="next" onclick="finalizar()">Fechar o convite 💌</button>
+    </div>
+
+    <!-- SUCESSO -->
+    <div class="card" id="sucesso">
+      <div class="cheer">💌</div>
+      <h2 class="reveal-h">Prontinho!</h2>
+      <p class="reveal-p">Copia a mensagem e cola na nossa conversa 😉</p>
+      <textarea id="mensagem" class="msg-final" readonly></textarea>
+      <button class="next" id="btnCopiar" onclick="copiar()">📋 Copiar mensagem</button>
+    </div>
+  </div>
+
+
+<script>
+  /* ambient hearts + sparkles */
+  (function(){
+    const amb = document.getElementById('amb');
+    const hs = ['💗','💕','🩷','💞','❤️'];
+    for (let i=0;i<6;i++){
+      const h=document.createElement('div'); h.className='fh';
+      h.textContent = hs[i%hs.length];
+      h.style.left=(Math.random()*100)+'%';
+      h.style.fontSize=(10+Math.random()*12)+'px';
+      h.style.animationDuration=(9+Math.random()*7)+'s';
+      h.style.animationDelay=(-Math.random()*14)+'s';
+      amb.appendChild(h);
+    }
+    for (let i=0;i<8;i++){
+      const s=document.createElement('div'); s.className='spk'; s.textContent = Math.random()>.5?'✦':'✧';
+      s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%';
+      s.style.animationDelay=(-Math.random()*3.4)+'s';
+      amb.appendChild(s);
+    }
+  })();
+
+  /* typewriter */
+  (function(){
+    const el=document.getElementById('typed');
+    const full='Nosso primeiro encontro foi ótimo… que tal a gente repetir? 😏';
+    let i=0;
+    (function tick(){
+      if(i<=full.length){ el.textContent=full.slice(0,i); i++; setTimeout(tick,48); }
+    })();
+  })();
+
+  /* pré-preenche a data com hoje (DD/MM) */
+  (function(){
+    const d=new Date();
+    const dd=String(d.getDate()).padStart(2,'0');
+    const mm=String(d.getMonth()+1).padStart(2,'0');
+    const el=document.getElementById('data');
+    if(el) el.value=dd+'/'+mm;
+  })();
+
+  /* runaway "não" + growing SIM */
+  let simScale=1, naoTries=0, naoGone=false;
+  function foge(btn, e){
+    if(naoGone) return;
+    // escape the card's backdrop-filter containing block so fixed = viewport
+    if(btn.parentElement!==document.body) document.body.appendChild(btn);
+    // grow the SIM each dodge (bigger jumps now)
+    naoTries++;
+    const sim=document.querySelector('.sim');
+    simScale=Math.min(1+naoTries*1.2, 7);
+    sim.style.transform='scale('+simScale+')';
+    // on the 3rd dodge the "não" explodes into hearts and is gone for good
+    if(naoTries>=3){
+      naoGone=true;
+      const r=btn.getBoundingClientRect();
+      explodeHearts(r.left+r.width/2, r.top+r.height/2);
+      btn.remove();
+      return;
+    }
+    // otherwise it flees to a random spot, away from the cursor
+    const pad=16, w=btn.offsetWidth, h=btn.offsetHeight;
+    const maxX=Math.max(pad, window.innerWidth - w - pad);
+    const maxY=Math.max(pad, window.innerHeight - h - pad);
+    const cx=e?e.clientX:window.innerWidth/2, cy=e?e.clientY:window.innerHeight/2;
+    let x,y,tries=0;
+    do {
+      x=pad+Math.random()*(maxX-pad);
+      y=pad+Math.random()*(maxY-pad);
+      tries++;
+    } while(Math.hypot(x-cx,y-cy)<200 && tries<25);
+    btn.style.position='fixed';
+    btn.style.zIndex='9';
+    btn.style.left=x+'px';
+    btn.style.top=y+'px';
+  }
+
+  // generic radial burst of emoji/symbols from a point
+  function explodeSymbols(x,y,symbols,count){
+    const vw=Math.max(window.innerWidth,window.innerHeight);
+    for(let i=0;i<count;i++){
+      const p=document.createElement('div');
+      p.textContent=symbols[i%symbols.length];
+      p.style.cssText='position:fixed;z-index:10;pointer-events:none;left:'+x+'px;top:'+y+'px;font-size:'+(20+Math.random()*34)+'px';
+      const ang=Math.random()*Math.PI*2, dist=160+Math.random()*(vw*0.5);
+      const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist-60;
+      const anim=p.animate([
+        {transform:'translate(-50%,-50%) scale(.2) rotate(0deg)', opacity:1},
+        {transform:'translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) scale(1.4) rotate('+(Math.random()*360-180)+'deg)', opacity:0}
+      ], {duration:1300+Math.random()*800, easing:'cubic-bezier(.15,.7,.25,1)', fill:'forwards'});
+      document.body.appendChild(p);
+      anim.onfinish=function(){ p.remove(); };
+    }
+  }
+  // big heart burst (the "não" exploding)
+  function explodeHearts(x,y){ explodeSymbols(x,y,['💗','💕','🩷','❤️','💞','💖','💘','💓'],70); }
+
+  /* ---- form screen ---- */
+  function irParaForm(){ mostrarTela('form'); }
+  let localEscolhido='';
+  function escolherLocal(btn){
+    document.querySelectorAll('.loc').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    localEscolhido=btn.dataset.nome;
+    clearBubble();
+    const link=document.getElementById('localLink');
+    link.href=btn.dataset.maps; link.style.display='inline-block';
+    link.textContent='📍 ver '+btn.dataset.nome+' no mapa';
+  }
+  // explosion palettes (emoji placeholders): green for Palestra Itália, black & white for Corinthians
+  const FX = { verde:['🟢','💚','🟩','🍀','⚽'], pretobranco:['⚫','⚪','⚽','🖤','🤍'] };
+  let fxBubble=null;
+  function clearBubble(){ if(fxBubble){ fxBubble.remove(); fxBubble=null; } }
+  function showBubbleBeside(btn, msg){
+    clearBubble();
+    const b=document.createElement('div');
+    b.className='bubble-float'; b.textContent=msg;
+    document.body.appendChild(b);
+    const r=btn.getBoundingClientRect();
+    const bw=b.offsetWidth, bh=b.offsetHeight, gap=12;
+    let left, top, tail;
+    if(r.right+gap+bw <= window.innerWidth-8){ left=r.right+gap; top=r.top+r.height/2-bh/2; tail='on-right'; }
+    else if(r.left-gap-bw >= 8){ left=r.left-gap-bw; top=r.top+r.height/2-bh/2; tail='on-left'; }
+    else { left=Math.max(8, Math.min(r.left+r.width/2-bw/2, window.innerWidth-bw-8)); top=r.top-gap-bh; tail='on-bottom'; }
+    top=Math.max(8, Math.min(top, window.innerHeight-bh-8));
+    b.style.left=left+'px'; b.style.top=top+'px'; b.classList.add(tail);
+    fxBubble=b;
+  }
+  function explodirLocal(btn){
+    if(btn.disabled) return;
+    const r=btn.getBoundingClientRect();
+    const fx=FX[btn.dataset.fx];
+    if(fx) explodeSymbols(r.left+r.width/2, r.top+r.height/2, fx, 42);
+    showBubbleBeside(btn, btn.dataset.msg);
+    document.getElementById('localLink').style.display='none';
+    btn.disabled=true; btn.classList.add('done');
+  }
+  function fmtData(c){ let v=c.value.replace(/\D/g,''); if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2,4); c.value=v; }
+  function fmtHora(c){ let v=c.value.replace(/\D/g,''); if(v.length>2)v=v.slice(0,2)+':'+v.slice(2,4); c.value=v; }
+  function dataValida(s){ const m=s.match(/^(\d{2})\/(\d{2})$/); if(!m) return false; const d=+m[1], mo=+m[2]; return d>=1&&d<=31&&mo>=1&&mo<=12; }
+  function horaValida(s){ const m=s.match(/^(\d{2}):(\d{2})$/); if(!m) return false; const h=+m[1], mi=+m[2]; return h>=0&&h<=23&&mi>=0&&mi<=59; }
+  function finalizar(){
+    const data=document.getElementById('data').value.trim();
+    const hora=document.getElementById('hora').value.trim();
+    const ideia=document.getElementById('ideia').value.trim();
+    const erro=document.getElementById('formErro'); erro.textContent='';
+    if(!localEscolhido){ erro.textContent='Escolhe um lugar primeiro 😉'; return; }
+    if(!dataValida(data)){ erro.textContent='Confere a data (DD/MM) 😉'; return; }
+    if(!horaValida(hora)){ erro.textContent='Coloca o horário (ex: 20:30) 😉'; return; }
+    const texto =
+      'Oii! Aceito o segundo encontro 🥰\n\n' +
+      '📍 Onde: ' + localEscolhido + '\n' +
+      '📅 Data: ' + data + '\n' +
+      '🕐 Horário: ' + hora + '\n' +
+      (ideia ? '💡 Minha ideia melhor: ' + ideia + '\n' : '') +
+      '\nTá marcado! mal posso esperar 😄💕';
+    document.getElementById('mensagem').value=texto;
+    clearBubble();
+    mostrarTela('sucesso');
+    explodeHearts(window.innerWidth/2, window.innerHeight*0.4);
+  }
+  async function copiar(){
+    const txt=document.getElementById('mensagem').value;
+    const btn=document.getElementById('btnCopiar');
+    try{ await navigator.clipboard.writeText(txt); }
+    catch(e){ const c=document.getElementById('mensagem'); c.removeAttribute('readonly'); c.select(); document.execCommand('copy'); c.setAttribute('readonly',true); }
+    const o=btn.textContent; btn.textContent='✅ Copiado!'; setTimeout(function(){ btn.textContent=o; },2000);
+  }
+
+  /* SIM → confetti + reveal */
+  // troca de tela: esconde TODAS as outras e mostra só a alvo (evita telas sobrepostas)
+  let tela='question';
+  function mostrarTela(id){
+    ['question','reveal','form','sucesso'].forEach(function(t){
+      document.getElementById(t).style.display = (t===id) ? 'block' : 'none';
+    });
+    tela=id;
+  }
+  function dizerSim(){
+    const sim=document.querySelector('.sim');
+    const r=sim.getBoundingClientRect();
+    // gira o botão e some
+    const anim=sim.animate([
+      {transform:'rotate(0deg) scale(1.2)', opacity:1, offset:0},
+      {transform:'rotate(540deg) scale(1.4)', opacity:1, offset:0.6},
+      {transform:'rotate(720deg) scale(0.1)', opacity:0, offset:1}
+    ], {duration:650, easing:'ease-in', fill:'forwards'});
+    // estoura com corações e sorrisos, do centro do botão
+    explodeSymbols(r.left+r.width/2, r.top+r.height/2, ['💗','😊','💕','😄','🥰','💖'], 60);
+    const nao=document.querySelector('.nao'); if(nao) nao.style.display='none';
+    anim.onfinish=function(){ if(tela==='question') mostrarTela('reveal'); };
+  }
+
+  function rain(){ burst(60, true); }
+
+  function burst(n, heartsOnly){
+    const colors=['#ff5a9e','#ff2e63','#ffd166','#ff9ac2','#c04df0','#4cc9f0','#fff'];
+    const hearts=['💗','💕','🩷','❤️','💞'];
+    for(let i=0;i<n;i++){
+      const p=document.createElement('div'); p.className='fall';
+      const isHeart = heartsOnly || Math.random()>.5;
+      if(isHeart){ p.textContent=hearts[i%hearts.length]; p.style.fontSize=(14+Math.random()*16)+'px'; }
+      else {
+        p.style.width=(7+Math.random()*7)+'px'; p.style.height=(9+Math.random()*8)+'px';
+        p.style.background=colors[i%colors.length]; p.style.borderRadius='2px';
+      }
+      p.style.left=(Math.random()*100)+'vw';
+      p.style.setProperty('--r',(Math.random()*720-360)+'deg');
+      p.style.opacity='0';
+      const dur=(2.4+Math.random()*2.2);
+      p.style.animation=`drop ${dur}s cubic-bezier(.3,.6,.5,1) forwards`;
+      p.style.animationDelay=(Math.random()*.5)+'s';
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(), (dur+1)*1000);
+    }
+  }
+</script>
+</body>
+</html>
