@@ -185,6 +185,7 @@
         <button class="loc" data-nome="Confeitaria Perdita" data-maps="https://www.google.com/maps/search/?api=1&query=Confeitaria+Perdita" onclick="escolherLocal(this)">🧁 Confeitaria Perdita</button>
         <button class="loc" data-nome="Fazenda da vovó" data-maps="https://www.google.com/maps/search/?api=1&query=Fazenda+da+vov%C3%B3" onclick="escolherLocal(this)">🌳 Fazenda da vovó</button>
         <button class="loc" data-nome="Hangar Gastronomia" data-maps="https://www.google.com/maps/search/?api=1&query=Hangar+Gastronomia" onclick="escolherLocal(this)">🛩️ Hangar Gastronomia</button>
+        <button class="loc" data-outro="1" onclick="escolherOutro(this)">✨ Outro (tenho minha própria ideia)</button>
         <button class="loc joke" data-fx="verde" data-msg="hehe, quem sabe no futuro 😏" onclick="explodirLocal(this)">⚽ Palestra Itália</button>
         <button class="loc joke" data-fx="pretobranco" data-msg="Ahhh, vc considerou rsrs 😂" onclick="explodirLocal(this)">⚽ Estádio do Corinthians</button>
         <button class="loc joke" data-msg="Uall !! vc não acreditou nisso né?? rsrs" onclick="explodirLocal(this)">🍟 Mcdonalds</button>
@@ -201,7 +202,7 @@
       </div>
       <div class="field">
         <label>💡 Eu tenho uma ideia melhor jovem Joseense:</label>
-        <textarea id="ideia" rows="2" placeholder="manda sua ideia aqui 😏"></textarea>
+        <textarea id="ideia" rows="2" placeholder="manda sua ideia aqui 😏" oninput="ideiaInput()"></textarea>
       </div>
 
       <div id="formErro" class="form-erro"></div>
@@ -328,6 +329,31 @@
     link.href=btn.dataset.maps; link.style.display='inline-block';
     link.textContent='📍 ver '+btn.dataset.nome+' no mapa';
   }
+  // opção "Outro": vale como escolha e leva o foco pro campo de texto
+  function escolherOutro(btn){
+    document.querySelectorAll('.loc').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    localEscolhido='Outro';
+    clearBubble();
+    document.getElementById('localLink').style.display='none';
+    document.getElementById('ideia').focus();
+  }
+  // se ela digitar a ideia, já conta como escolha (marca "Outro" sozinho)
+  function ideiaInput(){
+    const v=document.getElementById('ideia').value.trim();
+    const outroBtn=document.querySelector('.loc[data-outro]');
+    const realSelecionado = localEscolhido && localEscolhido!=='Outro';
+    if(v && !realSelecionado){
+      document.querySelectorAll('.loc').forEach(function(b){ b.classList.remove('selected'); });
+      if(outroBtn) outroBtn.classList.add('selected');
+      localEscolhido='Outro';
+      document.getElementById('localLink').style.display='none';
+      clearBubble();
+    } else if(!v && localEscolhido==='Outro'){
+      if(outroBtn) outroBtn.classList.remove('selected');
+      localEscolhido='';
+    }
+  }
   // explosion palettes (emoji placeholders): green for Palestra Itália, black & white for Corinthians
   const FX = { verde:['🟢','💚','🟩','🍀','⚽'], pretobranco:['⚫','⚪','⚽','🖤','🤍'] };
   let fxBubble=null;
@@ -365,15 +391,16 @@
     const hora=document.getElementById('hora').value.trim();
     const ideia=document.getElementById('ideia').value.trim();
     const erro=document.getElementById('formErro'); erro.textContent='';
-    if(!localEscolhido){ erro.textContent='Escolhe um lugar primeiro 😉'; return; }
+    const temLugar = localEscolhido && localEscolhido!=='Outro';
+    if(!temLugar && !ideia){ erro.textContent='Escolhe um lugar ou escreve sua ideia 😉'; return; }
     if(!dataValida(data)){ erro.textContent='Confere a data (DD/MM) 😉'; return; }
     if(!horaValida(hora)){ erro.textContent='Coloca o horário (ex: 20:30) 😉'; return; }
     const texto =
       'Oii! Aceito o segundo encontro 🥰\n\n' +
-      '📍 Onde: ' + localEscolhido + '\n' +
+      (temLugar ? '📍 Onde: ' + localEscolhido + '\n' : '') +
       '📅 Data: ' + data + '\n' +
       '🕐 Horário: ' + hora + '\n' +
-      (ideia ? '💡 Minha ideia melhor: ' + ideia + '\n' : '') +
+      (ideia ? '💡 Minha ideia: ' + ideia + '\n' : '') +
       '\nTá marcado! mal posso esperar 😄💕';
     document.getElementById('mensagem').value=texto;
     clearBubble();
