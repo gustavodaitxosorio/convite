@@ -70,8 +70,17 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
    (treme → morph → pausa → converge → `.mega` + burst → clique → `grow` → próxima tela).
    Primeiro clique dispara a música.
 5. **Tela Reveal** (`#reveal`) — confete + explosão de corações, mensagem fofa, botão "próximo".
-6. **Tela Planejamento** (`#form`) — lista de lugares (fornecida) + 1 opção-pegadinha;
-   campos data (DD/MM) e horário (HH:MM) com máscara/validação; campo opcional "ideia".
+6. **Tela Planejamento** (`#form`) — "pra onde a gente vai?" com 3 opções de lugar
+   (seleção única):
+   - 🍨 La Gelateria + caminhada de leve
+   - 🎬 Cineminha no Kinoplex Diamante
+   - 🏐 Uma aula de vôlei de areia
+
+   Campo **data (DD/MM)** com máscara. **Pegadinha da data:** se a data escolhida for
+   **depois de hoje**, aparece a mensagem *"Certeza que não quer antes?? S2"* (compara a
+   data com hoje zerando as horas; some quando a data volta a ser hoje/antes).
+   Campos de **horário (HH:MM)** e "ideia" opcional seguem como na v2.
+   (Opção-pegadinha estilo "McDonalds" da v2 fica opcional — usuário decide se entra.)
 7. **Tela Sucesso** (`#sucesso`) — monta a mensagem final e oferece **copiar** (clipboard
    com fallback `execCommand`).
 
@@ -120,4 +129,6 @@ lugar escolhido, data, hora, ideia. Ao finalizar, monta uma string e joga num
 - Texto exato de cada tela (pergunta, reveal, sucesso) — rascunho na implementação,
   ajuste fino com o usuário.
 - Nomes/posições das imagens do Shrek assim que forem enviadas.
-- Lista final de lugares + qual é a pegadinha.
+- Se entra ou não a opção-pegadinha de lugar (estilo "McDonalds" da v2) — a lista atual
+  tem 3 lugares reais.
+- Arquivo `all-star.mp3` a ser enviado.
