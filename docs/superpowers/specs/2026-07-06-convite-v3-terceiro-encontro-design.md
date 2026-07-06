@@ -26,14 +26,20 @@ que ela copia e manda de volta confirmando o encontro.
 - **Corações:** muitos, se movendo na **diagonal** (sobem indo pra direita), nas cores
   **rosa, vermelho e verde**. Ficam **atrás** dos botões (camada de fundo, sem capturar clique).
 - **Fundo:** rosé romântico profundo, com um leve brilho verde (tie-in Shrek).
-- **Tela de senha (tela 0):** antes de tudo, uma telinha de senha bonita (mesmo clima
-  das outras). Título "🎵 Dani". A senha é **"Daniela"** (comparada em minúsculas/trim).
+- **Tela de senha (tela 0):** antes de tudo, uma telinha com o **trecho da música "Dani"**
+  como letra na tela — *"só penso nela… quem é ela? o nome dela é ___"* — e o **campo da
+  senha é a lacuna do verso** (estilizado como um "___" com só uma linha embaixo). Ela
+  **completa a música com o próprio nome**: a senha é **"Daniela"** (minúsculas/trim).
   Ao dar **Enter** ou clicar em "entrar", um **coração gigante** explode e libera a tela
-  da pergunta (que era a primeira). Senha errada → shake + dica gentil.
+  da pergunta (que era a primeira). Senha errada → shake + dica ("completa a música com o
+  seu nome"). No v3 real o trecho de `dani.mp3` toca nessa tela.
   (É um "portão" romântico, não segurança real — a senha fica no HTML.)
-- **Música:** **duas** — a música **"Dani"** na tela de senha e **All Star (Smash Mouth)**
-  no fluxo principal. Começam na primeira interação (autoplay é bloqueado antes de gesto
-  do usuário). Botão de mute 🔇/🔊.
+- **Música:** **uma só** — **"Dani" (Biquini Cavadão)** — a mesma música do verso da tela
+  de senha. Toca do início ao fim (a All Star / Shrek foi removida). Começa na **primeira
+  interação** (autoplay bloqueado antes de gesto) e **já no trecho do refrão** ("só penso
+  nela…", ~32s, `startSeconds` ajustável). Tocada via **YouTube** (player escondido) com
+  **fallback de vídeo** se algum ID tiver embed desabilitado. Botão de mute 🔇/🔊.
+  Requer servir por `http://localhost`/`https` (o YouTube não toca em `file://`).
 - **Imagens:** Shrek memes + fundos decorativos (fornecidos pelo usuário).
 - **Fluxo:** completo — Sim → escolher lugar → data/hora → mensagem pra copiar.
 - **Botão "não":** brincadeira nova, encadeada — ao passar o mouse (ou tocar):
@@ -68,9 +74,10 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
      negativo pra tela nascer cheia.
 2. **Fundo romântico** — gradientes radiais quentes (rosa/vermelho) + um radial verde suave
    + linear rosé profundo. Vinheta por cima (`z-index:2`) pra dar clima.
-3. **Áudio** — dois `<audio>`: `dani.mp3` (tela de senha) e `all-star.mp3` (fluxo principal);
-   tocam na primeira interação de cada contexto; botão de mute persistente. Trata falha
-   de autoplay silenciosamente.
+3. **Áudio** — player do **YouTube** escondido tocando só a **"Dani"**, começando no refrão
+   (`startSeconds`), disparado na primeira interação; `onError` faz fallback entre IDs da
+   mesma música; botão de mute persistente. (Alternativa futura: trocar por um `<audio>`
+   com `dani.mp3` local, se o arquivo for fornecido.)
 3b. **Tela Senha** (`#lockScreen`) — input de senha + botão "entrar"; Enter e clique chamam
    a mesma checagem; senha "Daniela" → `bigHeart()` (coração gigante escalando 11x +
    `burstHearts`) → transição pra tela da pergunta. Errada → shake + dica.
@@ -98,8 +105,10 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
    *"Certeza que não quer antes?? 🥺 S2"* — estilizada como uma **pílula rosa com brilho
    pulsante** (compara a data com hoje zerando as horas; some quando volta a ser hoje/antes).
    (Opção-pegadinha de lugar estilo "McDonalds" da v2 fica opcional — usuário decide se entra.)
-7. **Tela Sucesso** (`#sucesso`) — monta a mensagem final e oferece **copiar** (clipboard
-   com fallback `execCommand`).
+7. **Tela Sucesso** (`#sucessoScreen`) — ao clicar em "tá, combinado!", valida (lugar/ideia
+   + data DD/MM + hora HH:MM), monta a mensagem *"Oii! Aceito o terceiro encontro 🥰 …"*
+   com onde/data/hora, faz fade pra tela final com burst de corações, e oferece **copiar**
+   (clipboard com fallback `execCommand`).
 
 Reaproveitar as funções já provadas da v2 onde fizer sentido (máscara/validação de
 data e hora `fmtHora`/`horaValida`/`dataValida`, troca de telas `mostrarTela`,
@@ -148,4 +157,7 @@ lugar escolhido, data, hora, ideia. Ao finalizar, monta uma string e joga num
 - Nomes/posições das imagens do Shrek assim que forem enviadas.
 - Se entra ou não a opção-pegadinha de lugar (estilo "McDonalds" da v2) — a lista atual
   tem 4 lugares reais + "Outros".
-- Arquivos de áudio a serem enviados: `dani.mp3` (tela de senha) e `all-star.mp3` (fluxo).
+- Segundo exato do refrão da "Dani" (`DANI_START`, hoje ~32s) — confirmar ouvindo.
+- Como publicar com a música: precisa de `https` (GitHub Pages serve por https, então o
+  player do YouTube funciona no site publicado — só não funciona aberto como `file://`).
+- Imagens do Shrek + fundos decorativos a serem enviados.
