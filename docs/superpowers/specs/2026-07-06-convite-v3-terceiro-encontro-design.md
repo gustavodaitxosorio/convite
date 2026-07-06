@@ -26,8 +26,14 @@ que ela copia e manda de volta confirmando o encontro.
 - **Corações:** muitos, se movendo na **diagonal** (sobem indo pra direita), nas cores
   **rosa, vermelho e verde**. Ficam **atrás** dos botões (camada de fundo, sem capturar clique).
 - **Fundo:** rosé romântico profundo, com um leve brilho verde (tie-in Shrek).
-- **Música:** **All Star (Smash Mouth)**. Começa no **primeiro clique** da usuária
-  (autoplay é bloqueado pelos navegadores antes de interação). Botão de mute 🔇/🔊.
+- **Tela de senha (tela 0):** antes de tudo, uma telinha de senha bonita (mesmo clima
+  das outras). Título "🎵 Dani". A senha é **"Daniela"** (comparada em minúsculas/trim).
+  Ao dar **Enter** ou clicar em "entrar", um **coração gigante** explode e libera a tela
+  da pergunta (que era a primeira). Senha errada → shake + dica gentil.
+  (É um "portão" romântico, não segurança real — a senha fica no HTML.)
+- **Música:** **duas** — a música **"Dani"** na tela de senha e **All Star (Smash Mouth)**
+  no fluxo principal. Começam na primeira interação (autoplay é bloqueado antes de gesto
+  do usuário). Botão de mute 🔇/🔊.
 - **Imagens:** Shrek memes + fundos decorativos (fornecidos pelo usuário).
 - **Fluxo:** completo — Sim → escolher lugar → data/hora → mensagem pra copiar.
 - **Botão "não":** brincadeira nova, encadeada — ao passar o mouse (ou tocar):
@@ -62,8 +68,12 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
      negativo pra tela nascer cheia.
 2. **Fundo romântico** — gradientes radiais quentes (rosa/vermelho) + um radial verde suave
    + linear rosé profundo. Vinheta por cima (`z-index:2`) pra dar clima.
-3. **Áudio** — elemento `<audio>` com `all-star.mp3`; toca no primeiro clique de qualquer
-   botão; botão de mute persistente. Trata falha de autoplay silenciosamente.
+3. **Áudio** — dois `<audio>`: `dani.mp3` (tela de senha) e `all-star.mp3` (fluxo principal);
+   tocam na primeira interação de cada contexto; botão de mute persistente. Trata falha
+   de autoplay silenciosamente.
+3b. **Tela Senha** (`#lockScreen`) — input de senha + botão "entrar"; Enter e clique chamam
+   a mesma checagem; senha "Daniela" → `bigHeart()` (coração gigante escalando 11x +
+   `burstHearts`) → transição pra tela da pergunta. Errada → shake + dica.
 4. **Tela Pergunta** (`#question`) — efeito máquina de escrever monta a pergunta;
    botões **Sim** e **não**; gag do "não" → "Sim" → os dois "Sim" se fundem num só →
    clique no "Sim" gigante cresce e avança pro reveal
@@ -79,8 +89,9 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
    - 💡 Outros *(uma ajudinha de uma jooseense NATA é mais que bem vinda)* — ao selecionar,
      revela uma **caixa de texto** pra ela escrever a própria ideia.
 
-   **Efeito de coração:** cada clique numa opção dispara um mini-burst de corações no ponto
-   do clique (reaproveita `burstHearts(cx, cy, n)`).
+   **Efeito de coração:** cada clique numa opção dispara um burst **vívido** de corações no
+   ponto do clique (reaproveita `burstHearts(cx, cy, n)` — corações grandes, numerosos, com
+   brilho/`drop-shadow`, giro e espalhamento maior).
 
    Campo **data (DD/MM)** + **horário (HH:MM)**, ambos com máscara. **Pegadinha da data:**
    se a data escolhida for **depois de hoje**, aparece a mensagem
@@ -136,5 +147,5 @@ lugar escolhido, data, hora, ideia. Ao finalizar, monta uma string e joga num
   ajuste fino com o usuário.
 - Nomes/posições das imagens do Shrek assim que forem enviadas.
 - Se entra ou não a opção-pegadinha de lugar (estilo "McDonalds" da v2) — a lista atual
-  tem 3 lugares reais.
-- Arquivo `all-star.mp3` a ser enviado.
+  tem 4 lugares reais + "Outros".
+- Arquivos de áudio a serem enviados: `dani.mp3` (tela de senha) e `all-star.mp3` (fluxo).
