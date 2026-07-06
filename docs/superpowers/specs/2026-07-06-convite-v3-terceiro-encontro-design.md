@@ -70,17 +70,23 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
    (treme → morph → pausa → converge → `.mega` + burst → clique → `grow` → próxima tela).
    Primeiro clique dispara a música.
 5. **Tela Reveal** (`#reveal`) — confete + explosão de corações, mensagem fofa, botão "próximo".
-6. **Tela Planejamento** (`#form`) — "pra onde a gente vai?" com 3 opções de lugar
+6. **Tela Planejamento** (`#form`) — "pra onde a gente vai?" com 5 opções de lugar
    (seleção única):
    - 🍨 La Gelateria + caminhada de leve
    - 🎬 Cineminha no Kinoplex Diamante
    - 🏐 Uma aula de vôlei de areia
+   - 🍷 1 taça de vinho em casa
+   - 💡 Outros *(uma ajudinha de uma jooseense NATA é mais que bem vinda)* — ao selecionar,
+     revela uma **caixa de texto** pra ela escrever a própria ideia.
 
-   Campo **data (DD/MM)** com máscara. **Pegadinha da data:** se a data escolhida for
-   **depois de hoje**, aparece a mensagem *"Certeza que não quer antes?? S2"* (compara a
-   data com hoje zerando as horas; some quando a data volta a ser hoje/antes).
-   Campos de **horário (HH:MM)** e "ideia" opcional seguem como na v2.
-   (Opção-pegadinha estilo "McDonalds" da v2 fica opcional — usuário decide se entra.)
+   **Efeito de coração:** cada clique numa opção dispara um mini-burst de corações no ponto
+   do clique (reaproveita `burstHearts(cx, cy, n)`).
+
+   Campo **data (DD/MM)** + **horário (HH:MM)**, ambos com máscara. **Pegadinha da data:**
+   se a data escolhida for **depois de hoje**, aparece a mensagem
+   *"Certeza que não quer antes?? 🥺 S2"* — estilizada como uma **pílula rosa com brilho
+   pulsante** (compara a data com hoje zerando as horas; some quando volta a ser hoje/antes).
+   (Opção-pegadinha de lugar estilo "McDonalds" da v2 fica opcional — usuário decide se entra.)
 7. **Tela Sucesso** (`#sucesso`) — monta a mensagem final e oferece **copiar** (clipboard
    com fallback `execCommand`).
 
