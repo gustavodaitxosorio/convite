@@ -30,11 +30,13 @@ que ela copia e manda de volta confirmando o encontro.
   (autoplay é bloqueado pelos navegadores antes de interação). Botão de mute 🔇/🔊.
 - **Imagens:** Shrek memes + fundos decorativos (fornecidos pelo usuário).
 - **Fluxo:** completo — Sim → escolher lugar → data/hora → mensagem pra copiar.
-- **Botão "não":** brincadeira nova, em 3 etapas encadeadas — ao passar o mouse (ou tocar):
+- **Botão "não":** brincadeira nova, encadeada — ao passar o mouse (ou tocar):
   (1) **treme** e vira "Sim" (texto muda, cor vira rosa); (2) pequena pausa pra registrar
   que agora existem **dois "Sim"**; (3) os dois **deslizam um pro outro e se fundem num
-  "Sim" gigante** (`.mega`), com uma explosãozinha de corações. Impossível recusar.
-  NÃO é o "foge do cursor" da v2. (Validado no mockup e aprovado pelo usuário.)
+  "Sim" gigante** (`.mega`), com uma explosãozinha de corações. Aí (4) **ao clicar** no
+  "Sim" gigante ele **cresce mais** (o "sim!" definitivo) e só então **libera/avança pra
+  próxima tela** (o reveal). Impossível recusar. NÃO é o "foge do cursor" da v2.
+  (Validado no mockup e aprovado pelo usuário.)
 - **Pegadinha na lista de lugares:** manter uma opção falsa/engraçada (estilo o "McDonalds"
   da v2) que solta uma piada e "explode" ao clicar. Usuário vai fornecer a lista atualizada.
 
@@ -63,9 +65,10 @@ depois de carregada). Assets locais (mp3, imagens) referenciados por caminho rel
 3. **Áudio** — elemento `<audio>` com `all-star.mp3`; toca no primeiro clique de qualquer
    botão; botão de mute persistente. Trata falha de autoplay silenciosamente.
 4. **Tela Pergunta** (`#question`) — efeito máquina de escrever monta a pergunta;
-   botões **Sim** e **não**; gag do "não" → "Sim" → os dois "Sim" se fundem num só
-   (treme → morph → pausa → converge → `.mega` + burst de corações). Primeiro clique
-   dispara a música.
+   botões **Sim** e **não**; gag do "não" → "Sim" → os dois "Sim" se fundem num só →
+   clique no "Sim" gigante cresce e avança pro reveal
+   (treme → morph → pausa → converge → `.mega` + burst → clique → `grow` → próxima tela).
+   Primeiro clique dispara a música.
 5. **Tela Reveal** (`#reveal`) — confete + explosão de corações, mensagem fofa, botão "próximo".
 6. **Tela Planejamento** (`#form`) — lista de lugares (fornecida) + 1 opção-pegadinha;
    campos data (DD/MM) e horário (HH:MM) com máscara/validação; campo opcional "ideia".
